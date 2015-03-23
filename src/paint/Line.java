@@ -65,7 +65,7 @@ public class Line extends Tool {
 		
 		drawing = false;
 		
-		Graphics2D g = canvas.getGraphics2D();
+		Graphics2D g = (Graphics2D)canvas.getImage().getGraphics();
 		g.setColor(canvas.getCurrentColor());
 		if (g != null)
 			g.drawLine(clickX, clickY, releaseX, releaseY);

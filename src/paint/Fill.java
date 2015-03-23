@@ -1,11 +1,9 @@
 package paint;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 import java.util.Queue;
-
-import javax.swing.text.Position;
 
 public class Fill extends Tool {
 	
@@ -37,20 +35,66 @@ public class Fill extends Tool {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+		int startX = e.getX();
+		int startY = e.getY();
 		
-		Graphics2D g = canvas.getGraphics2D();
-		g.setColor(canvas.getCurrentColor());
-		if (g != null) {
-			Image i = canvas.getImage();
-			//	BFS
-			//Queue q = new Queue<Position>();
+		BufferedImage i = (BufferedImage)canvas.getImage();
+		int maxX = i.getWidth();
+		int maxY = i.getHeight();
+		
+		if (startX >= maxX || startX < 0 || startY >= maxY || startY < 0)
+			return;
+		
+		int fillColor = canvas.getCurrentColor().getRGB();
+		int previousColor = i.getRGB(startX, startY);
+		if (fillColor == previousColor)
+			return;
+		
+		//	BFS
+		Queue<IntPair> k = new LinkedList<IntPair>();
+		k.add(new IntPair(startX, startY));
+		i.setRGB(startX, startY, fillColor);
+		while (!k.isEmpty()) {
+			IntPair pos = k.remove();
+			if (pos.first+1 < maxX) {
+				if (i.getRGB(pos.first+1, pos.second) == previousColor) {
+					i.setRGB(pos.first+1, pos.second, fillColor);
+					k.add(new IntPair(pos.first+1, pos.second));
+				}
+			}
+			if (pos.first-1 >= 0) {
+				if (i.getRGB(pos.first-1, pos.second) == previousColor) {
+					i.setRGB(pos.first-1, pos.second, fillColor);
+					k.add(new IntPair(pos.first-1, pos.second));
+				}
+			}
+			if (pos.second+1 < maxY) {
+				if (i.getRGB(pos.first, pos.second+1) == previousColor) {
+					i.setRGB(pos.first, pos.second+1, fillColor);
+					k.add(new IntPair(pos.first, pos.second+1));
+				}
+			}
+			if (pos.second-1 >= 0) {
+				if (i.getRGB(pos.first, pos.second-1) == previousColor) {
+					i.setRGB(pos.first, pos.second-1, fillColor);
+					k.add(new IntPair(pos.first, pos.second-1));
+				}
+			}
 		}
+		
 		canvas.repaint();
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+	}
+	
+	private class IntPair {
+	    public int first, second;
+	    
+	    public IntPair(int p1, int p2) {
+	        this.first = p1;
+	        this.second = p2;
+	    }
 	}
 }

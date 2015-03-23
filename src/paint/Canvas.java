@@ -46,8 +46,6 @@ public class Canvas extends JPanel {
 	
 	public void setColor(Color c) {
 		currentColor = c;
-		//TODO Remove debug code
-		setBackground(currentColor);
 	}
 	
 	public void setTool(ToolType t) {
@@ -80,10 +78,6 @@ public class Canvas extends JPanel {
 		graphics2D.fillRect(0, 0, getSize().width, getSize().height);
 		graphics2D.setPaint(currentColor);
 		repaint();
-	}
-	
-	public Graphics2D getGraphics2D() {
-		return graphics2D;
 	}
 	
 	public Color getCurrentColor() {

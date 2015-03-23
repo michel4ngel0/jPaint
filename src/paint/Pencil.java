@@ -18,7 +18,7 @@ public class Pencil extends Tool {
 		clickX = e.getX();
 		clickY = e.getY();
 		
-		Graphics2D g = canvas.getGraphics2D();
+		Graphics2D g = (Graphics2D)canvas.getImage().getGraphics();
 		g.setPaint(canvas.getCurrentColor());
 		if (g != null)
 			g.drawLine(clickX, clickY, clickX, clickY);
@@ -30,7 +30,7 @@ public class Pencil extends Tool {
 		int currentX = e.getX();
 		int currentY = e.getY();
 		
-		Graphics2D g = canvas.getGraphics2D();
+		Graphics2D g = (Graphics2D)canvas.getImage().getGraphics();
 		g.setPaint(canvas.getCurrentColor());
 		if(g != null)
 			g.drawLine(clickX, clickY, currentX, currentY);
