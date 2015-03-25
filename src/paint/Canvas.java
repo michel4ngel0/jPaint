@@ -13,7 +13,7 @@ public class Canvas extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public enum ToolType {
-		PENCIL, LINE, FILL
+		PENCIL, LINE, FILL, BEZIER
 	}
 	
 	private Color currentColor;
@@ -67,6 +67,9 @@ public class Canvas extends JPanel {
 		case FILL: {
 			currentTool = new Fill(this);
 		} break;
+		case BEZIER: {
+			currentTool = new Bezier(this);
+		} break;
 		}
 		
 		addMouseListener(currentTool);
@@ -77,6 +80,12 @@ public class Canvas extends JPanel {
 		graphics2D.setPaint(c);
 		graphics2D.fillRect(0, 0, getSize().width, getSize().height);
 		graphics2D.setPaint(currentColor);
+		
+		//	Reseting the tool
+		ToolType temp = currentToolType;
+		setTool(ToolType.PENCIL);
+		setTool(temp);
+		
 		repaint();
 	}
 	

@@ -88,13 +88,4 @@ public class Fill extends Tool {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 	}
-	
-	private class IntPair {
-	    public int first, second;
-	    
-	    public IntPair(int p1, int p2) {
-	        this.first = p1;
-	        this.second = p2;
-	    }
-	}
 }
